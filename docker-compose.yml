@@ -1,0 +1,29 @@
+version: '3'
+services:
+  db:
+    container_name: db
+    image: "mysql:5.7"
+    restart: "no"
+    environment:
+      MYSQL_ROOT_PASSWORD: dev
+      MYSQL_DATABASE: dev
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
+      TZ: "Etc/UTC"
+  test:
+    depends_on:
+      - db
+    container_name: test
+    image: "node:12"
+    user: "node"
+    working_dir: "/home/node/app"
+    volumes:
+      - "./:/home/node/app"
+    command: "utils/wait-for-it.sh db:3306 -t 30 -- npm run test:do-it"
+    environment:
+      TZ: "Etc/UTC"
+      MYSQL_HOST: db
+      MYSQL_DATABASE: dev
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev
+      MYSQL_PORT: 3306
