@@ -44,7 +44,7 @@ test('Commits when passed a pool.', () => {
         .then(x => expect(x).toBe(3))
 })
 
-test('Rolls back when passed a pool and encounters an exceptions.', () => {
+test('Rolls back when passed a pool and encounters an exception.', () => {
     const pool = Pool.get()
 
     return guardTransaction(pool, connection => {
